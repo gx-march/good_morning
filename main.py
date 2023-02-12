@@ -40,7 +40,7 @@ def get_weather():
   ctx.check_hostname = False
   ctx.verify_mode = ssl.CERT_NONE
   response = urllib2.urlopen(request, context=ctx)
-  content = response.read()
+  content = response.read().json()
   weather = res['data']['condition']
   #url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
   #res = requests.get(url).json()
