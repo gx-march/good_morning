@@ -23,7 +23,7 @@ template_id = os.environ["TEMPLATE_ID"]
 
 def get_weather():
   apiUrl = "http://aliv13.data.moji.com/whapi/json/alicityweather/condition"
-  values ={'cityId':'1286','token':'50b53ff8dd7d9fa320d3d3ca32cf8ed1}
+  values ={'cityId':'1286','token':'50b53ff8dd7d9fa320d3d3ca32cf8ed1'}
   jsonData = json.dumps(values)
   headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8","Authorization":"APPCODE 816ccb8790ab44739aa230bb37db131c"}         
   res = requests.post(url=apiUrl, data=jsonData, headers=headers)        
