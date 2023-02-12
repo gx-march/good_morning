@@ -5,8 +5,13 @@ from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
 import os
 import random
-import urllib, urllib2, sys
+import urllib
 import ssl
+import sys
+if sys.version > '3':
+   import urllib.request as urllib2
+else:
+   import urllib2
 
 today = datetime.now()
 start_date = os.environ['START_DATE']
