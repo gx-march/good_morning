@@ -27,7 +27,8 @@ def get_weather():
   jsonData = json.dumps(values)
   headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8","Authorization":"APPCODE 816ccb8790ab44739aa230bb37db131c"}         
   res = requests.post(url=apiUrl, data=jsonData, headers=headers)        
-  content = json.dumps(res.text)
+  #content = json.dumps(res.text)
+  content = res.json()
   weather = content['data']['condition']
   #url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
   #res = requests.get(url).json()
