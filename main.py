@@ -5,6 +5,8 @@ from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
 import os
 import random
+import urllib, urllib2, sys
+import ssl
 
 today = datetime.now()
 start_date = os.environ['START_DATE']
@@ -19,10 +21,31 @@ template_id = os.environ["TEMPLATE_ID"]
 
 
 def get_weather():
-  url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
-  res = requests.get(url).json()
-  weather = res['data']['list'][0]
-  return weather['weather'], math.floor(weather['temp'])
+  host = 'https://aliv13.data.moji.com'
+  path = '/whapi/json/alicityweather/condition'
+  method = 'POST'
+  appcode = '816ccb8790ab44739aa230bb37db131c'
+  querys = ''
+  bodys = {}
+  url = host + path
+
+  bodys['cityId'] = '''1286'''
+  bodys['token'] = '''50b53ff8dd7d9fa320d3d3ca32cf8ed1'''
+  post_data = urllib.urlencode(bodys)
+  request = urllib2.Request(url, post_data)
+  request.add_header('Authorization', 'APPCODE ' + appcode)
+  //根据API的要求，定义相对应的Content-Type
+  request.add_header('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+  ctx = ssl.create_default_context()
+  ctx.check_hostname = False
+  ctx.verify_mode = ssl.CERT_NONE
+  response = urllib2.urlopen(request, context=ctx)
+  content = response.read()
+  weather = res['data']['condition']
+  #url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+  #res = requests.get(url).json()
+  #weather = res['data']['list'][0]
+  return weather['condition'], math.floor(weather['temp'])
 
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
