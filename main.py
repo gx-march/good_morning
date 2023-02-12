@@ -7,11 +7,7 @@ import os
 import random
 import urllib
 import ssl
-import sys
-if sys.version > '3':
-   import urllib.request as urllib2
-else:
-   import urllib2
+import json
 
 today = datetime.now()
 start_date = os.environ['START_DATE']
@@ -26,26 +22,12 @@ template_id = os.environ["TEMPLATE_ID"]
 
 
 def get_weather():
-  host = 'https://aliv13.data.moji.com'
-  path = '/whapi/json/alicityweather/condition'
-  method = 'POST'
-  appcode = '816ccb8790ab44739aa230bb37db131c'
-  querys = ''
-  bodys = {}
-  url = host + path
-
-  bodys['cityId'] = '''1286'''
-  bodys['token'] = '''50b53ff8dd7d9fa320d3d3ca32cf8ed1'''
-  post_data = urllib.parse.urlencode(bodys)
-  request = urllib2.Request(url, post_data)
-  request.add_header('Authorization', 'APPCODE ' + appcode)
-  #根据API的要求，定义相对应的Content-Type
-  request.add_header('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
-  ctx = ssl.create_default_context()
-  ctx.check_hostname = False
-  ctx.verify_mode = ssl.CERT_NONE
-  response = urllib2.urlopen(request, context=ctx)
-  content = response.read().json()
+  apiUrl = "http://aliv13.data.moji.com/whapi/json/alicityweather/condition"
+  values ={'cityId':'1286','token':'50b53ff8dd7d9fa320d3d3ca32cf8ed1}
+  jsonData = json.dumps(values)
+  headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8","Authorization":"APPCODE 816ccb8790ab44739aa230bb37db131c"}         
+  res = requests.post(url=apiUrl, data=jsonData, headers=headers)        
+  content = res.text.json()
   weather = res['data']['condition']
   #url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
   #res = requests.get(url).json()
