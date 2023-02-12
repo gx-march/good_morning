@@ -36,7 +36,7 @@ def get_weather():
 
   bodys['cityId'] = '''1286'''
   bodys['token'] = '''50b53ff8dd7d9fa320d3d3ca32cf8ed1'''
-  post_data = urllib.urlencode(bodys)
+  post_data = urllib.parse.urlencode(bodys)
   request = urllib2.Request(url, post_data)
   request.add_header('Authorization', 'APPCODE ' + appcode)
   #根据API的要求，定义相对应的Content-Type
